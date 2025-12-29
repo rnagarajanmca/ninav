@@ -1,0 +1,54 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    image: ninav-backend:dev
+    container_name: ninav-backend
+    ports:
+      - 8080:8000
+    environment:
+      - IMAGE_ROOT=/data/images
+      - CORS_ORIGINS=["http://localhost:5180","http://127.0.0.1:5173","http://localhost:5174"]
+      - DATABASE_URL=sqlite:////app/data/faces.db
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./backend:/app
+      - ./sample_images:/data/images:ro  # Change to your photos directory
+      - ./data:/app/data
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+  frontend:
+    build:
+      context: ./frontend
+    image: ninav-frontend:dev
+    container_name: ninav-frontend
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_BASE=http://localhost:8080/api
+      - VITE_PROXY_TARGET=http://backend:8000
+    ports:
+      - 5180:5180
+    command: npm run dev -- --host 0.0.0.0 --port 5180
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+
+networks: {}

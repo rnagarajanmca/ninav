@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+venv/
+.venv/
+.env
+*.pyc
+
+# Node
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store
+
+# Build output
+dist/
+build/
+.coverage
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+.claude/
+*claude*
+*Claude*
+
+# Data directories
+data/
+sample_images/*
+!sample_images/.gitkeep
+
+# Documentation (keep only README files)
+PROGRESS.md
+OPTIMIZATION_REVIEW.md
+OPTIMIZATION_COMPLETED.md
+SESSION_SUMMARY.md
+GPU_ACCELERATION_GUIDE.md
+QUICK_START.md
+PRE_PUSH_CHECKLIST.md
+*.zip
+
+# Local configuration
+.env.local
+.env.*.local
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Docker volumes
+.trash/
